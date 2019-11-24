@@ -27,7 +27,7 @@ COPY --from=build /usr/local/share/man/man1/unbound-host.1 /usr/local/share/man/
 ENV PATH $PATH:/usr/local/lib
 ADD assets/unbound.conf /etc/unbound/unbound.conf
 
-RUN apk update && apk add openssl &&\
+RUN apk update && apk add openssl libevent expat &&\
 	adduser -S unbound -h /home/unbound &&\
 	mkdir /etc/unbound/conf.d &&\
 	chown -R unbound: /etc/unbound/
