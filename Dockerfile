@@ -1,9 +1,9 @@
-FROM alpine:3.10 as build
+FROM alpine:3.13 as build
 MAINTAINER "Vitali Khlebko vitali.khlebko@vetal.ca"
 
-ARG UNBOUND_TAG=release-1.9.5
+ARG UNBOUND_TAG=release-1.13.1
 
-RUN apk update && apk add git g++ openssl-dev expat-dev libevent-dev make
+RUN apk update && apk add git g++ openssl-dev expat-dev libevent-dev make byacc
 
 
 RUN cd /tmp &&\
@@ -13,7 +13,7 @@ RUN cd /tmp &&\
 	./configure --sysconfdir /etc --localstatedir /var --with-libevent &&\
 	make && make install
 
-FROM alpine:3.10
+FROM alpine:3.13
 
 COPY --from=build /usr/local/lib/pkgconfig/libunbound.pc /usr/local/lib/pkgconfig/libunbound.pc
 COPY --from=build /usr/local/lib/libunbound.* /usr/local/lib/
